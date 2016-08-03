@@ -21,13 +21,13 @@ for example
 import gensim
 from mymodel import mymodel_mk1
 
-_w2v_model = gensim.models.Word2Vec.load('./mymodel/word2vec_model/w2v_mymodel')
+_w2v_model = gensim.models.Word2Vec.load('./mymodel/word2vec_model/w2v_model20160803_120737')
 
 #Q = {"choices": {"a": "工法", "b": "南灣", "c": "妝效", "d": "禪風", "e": "茄子"}, 
 #"question": ["因為", "我們", "前一天", "去", "", "玩水", "一堆", "水上摩扥車", "在", "海上", "呼嘯而過", "很危險", "阿"]}
 
 Q = {"choices": {"a": "milk", "b": "travel", "c": "england", "d": "hot", "e": "mac"}, 
-"question": ["me", "like", "to", "travel", ""]}
+"question": ["me", "like", "to", "drink", ""]}
 
 A = mymodel_mk1.solve(Q, _w2v_model, logger=True)
 
