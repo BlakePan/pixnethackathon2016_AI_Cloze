@@ -38,16 +38,20 @@ def solve(Q, w2v_model, neighbor=1, logger=False):
 	if len(question) is 0 or len(choices) is 0:
 		return None
 
-	# convert word to vector nearby the blank
-	for i in range(blank_index-neighbor, blank_index+neighbor+1):
-		if i<0 or i>=len(question) or question[i]=='':
+	# convert question to vector
+	#for i in range(blank_index-neighbor, blank_index+neighbor+1):
+	for i in range(len(question)):
+		if question[i]=='':
 			continue
-
-		wordvec.append(w2v_model[question[i].decode('utf8')])
+		if question[i].decode('utf8') in w2v_model:
+			wordvec.append(w2v_model[question[i].decode('utf8')])
 
 	# convert choices to vector
 	for key, value in choices.iteritems():
-		choices[key] = w2v_model[value.decode('utf8')]
+		if value.decode('utf8') in w2v_model:
+			choices[key] = w2v_model[value.decode('utf8')]
+		else:
+			choices[key] = np.zeros(128)
 
 	if logger:
 		_logger.debug('wordvec')
