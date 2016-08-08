@@ -1,1 +1,1 @@
-__all__ = ["mymodel_mk1"];
+__all__ = ["mymodel_mk1, mymodel_mk2, mymodel_mk3"];

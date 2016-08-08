@@ -17,18 +17,24 @@ for example
 {"choices": {"a": "工法", "b": "南灣", "c": "妝效", "d": "禪風", "e": "茄子"}, 
 "question": ["因為", "我們", "前一天", "去", "", "玩水", "一堆", "水上摩扥車", "在", "海上", "呼嘯而過", "很危險", "阿"]}
 '''
-
+import bsddb3
 import gensim
-from mymodel import mymodel_mk1
+from mymodel import mymodel_mk1, mymodel_mk2
+from mymodel.RNNmodel.utils import load_data, load_model_parameters_theano, generate_sentences
+from mymodel.RNNmodel.gru_theano import *
 
-_w2v_model = gensim.models.Word2Vec.load('./mymodel/word2vec_model/w2v_model20160803_120737')
+# Load word2vec model
+_w2v_model = gensim.models.Word2Vec.load('./mymodel/word2vec_model/w2v_model20160806_194219')
 
-#Q = {"choices": {"a": "工法", "b": "南灣", "c": "妝效", "d": "禪風", "e": "茄子"}, 
-#"question": ["因為", "我們", "前一天", "去", "", "玩水", "一堆", "水上摩扥車", "在", "海上", "呼嘯而過", "很危險", "阿"]}
+# Load word association database
+freq_db = bsddb3.btopen('resource/wordcnt.db', 'r')
+keywd_db = bsddb3.btopen('resource/keyword2.db', 'r')
 
-Q = {"choices": {"a": "milk", "b": "travel", "c": "england", "d": "hot", "e": "mac"}, 
-"question": ["me", "like", "to", "drink", ""]}
+Q = {"choices": {"a": "工法", "b": "南灣", "c": "妝效", "d": "禪風", "e": "茄子"}, 
+"question": ["因為", "我們", "前一天", "去", "", "玩水", "一堆", "水上摩扥車", "在", "海上", "呼嘯而過", "很危險", "阿"]}
 
-A = mymodel_mk1.solve(Q, _w2v_model, logger=True)
+A1 = mymodel_mk1.solve(Q, _w2v_model)
+A2 = mymodel_mk2.solve(Q, freq_db, keywd_db)
 
-print A
+print A1
+print A2
